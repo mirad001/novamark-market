@@ -1,0 +1,1034 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NovaMark — Marketing that moves markets</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#DC2626',
+            'primary-dark': '#991B1B',
+            'primary-light': '#EF4444',
+            accent: '#F87171',
+            background: '#0F0F10',
+            surface: '#161618',
+            ink: '#F5F5F5',
+            muted: '#9CA3AF',
+            divider: '#262628',
+            deep: '#000000',
+          },
+          fontFamily: {
+            display: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            serif: ['"Cormorant Garamond"', 'serif'],
+            body: ['"Inter"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          borderRadius: {
+            '2.5xl': '1.25rem',
+            '4xl': '2rem',
+            '5xl': '2.5rem',
+            '6xl': '3rem',
+            '7xl': '4rem',
+          },
+          animation: { 'float': 'float 6s ease-in-out infinite' },
+          keyframes: { float: { '0%,100%': {transform:'translateY(0)'}, '50%': {transform:'translateY(-8px)'} } },
+        },
+      },
+    }
+  </script>
+  <style>
+    html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;}
+    body{background:#0F0F10;color:#F5F5F5;font-family:'Inter',system-ui,sans-serif;overflow-x:hidden;}
+    ::selection{background:#DC2626;color:#fff;}
+    ::-webkit-scrollbar{width:8px;}
+    ::-webkit-scrollbar-track{background:#0F0F10;}
+    ::-webkit-scrollbar-thumb{background:#DC2626;border-radius:8px;}
+    .noise-overlay{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;opacity:0.035;mix-blend-mode:screen;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+    .magnetic-btn{position:relative;overflow:hidden;transition:transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);}
+    .magnetic-btn:hover{transform:scale(1.03) translateY(-1px);}
+    .magnetic-btn:active{transform:scale(0.98);}
+    .magnetic-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.12),rgba(255,255,255,0));transform:translateY(100%);transition:transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);}
+    .magnetic-btn:hover::before{transform:translateY(0);}
+    .lift-on-hover{transition:transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);}
+    .lift-on-hover:hover{transform:translateY(-1px);}
+    .glass{background:rgba(22,22,24,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(220,38,38,0.2);}
+    .glass-dark{background:rgba(0,0,0,0.55);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
+    .gradient-text{background:linear-gradient(135deg,#EF4444 0%,#DC2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .grid-bg{background-image:linear-gradient(rgba(220,38,38,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(220,38,38,0.06) 1px,transparent 1px);background-size:40px 40px;}
+    @keyframes ring-pulse{0%{box-shadow:0 0 0 0 rgba(220,38,38,0.6);}70%{box-shadow:0 0 0 14px rgba(220,38,38,0);}100%{box-shadow:0 0 0 0 rgba(220,38,38,0);}}
+    .ring-pulse{animation:ring-pulse 2s infinite;}
+    @keyframes rain-fall{0%{transform:translate(-50%,-10px);opacity:0;}12%{opacity:1;}82%{opacity:1;}100%{transform:translate(-50%,95px);opacity:0;}}
+    @keyframes rain-ripple{0%{transform:translateX(-50%) scale(0.4);opacity:0.9;}80%{transform:translateX(-50%) scale(3.5);opacity:0;}100%{transform:translateX(-50%) scale(3.5);opacity:0;}}
+    @keyframes rain-fadein{from{opacity:0;transform:translateY(2px);}to{opacity:1;transform:translateY(0);}}
+    @keyframes pillar-sweep{0%{transform:translateX(-100%);}50%{transform:translateX(100%);}100%{transform:translateX(100%);}}
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.27.0/babel.min.js"></script>
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useRef } = React;
+gsap.registerPlugin(ScrollTrigger);
+
+/* ---- Icon Components ---- */
+const Svg = ({className, sw=2, children}) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+    fill="none" stroke="currentColor" strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round"
+    className={className}>{children}</svg>
+);
+const PhoneIcon = ({className,sw}) => <Svg className={className} sw={sw}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.99 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.9 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></Svg>;
+const MailIcon = ({className,sw}) => <Svg className={className} sw={sw}><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></Svg>;
+const MapPinIcon = ({className,sw}) => <Svg className={className} sw={sw}><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></Svg>;
+const ArrowUpRightIcon = ({className,sw}) => <Svg className={className} sw={sw}><path d="M7 7h10v10"/><path d="M7 17 17 7"/></Svg>;
+const ArrowRightIcon = ({className,sw}) => <Svg className={className} sw={sw}><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></Svg>;
+const CheckCircleIcon = ({className,sw}) => <Svg className={className} sw={sw}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></Svg>;
+const ShieldCheckIcon = ({className,sw}) => <Svg className={className} sw={sw}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></Svg>;
+const AwardIcon = ({className,sw}) => <Svg className={className} sw={sw}><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></Svg>;
+const ClockIcon = ({className,sw}) => <Svg className={className} sw={sw}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></Svg>;
+const MenuIcon = ({className,sw}) => <Svg className={className} sw={sw}><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></Svg>;
+const XIcon = ({className,sw}) => <Svg className={className} sw={sw}><path d="M18 6 6 18"/><path d="m6 6 12 12"/></Svg>;
+const UploadIcon = ({className,sw}) => <Svg className={className} sw={sw}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></Svg>;
+const LayersIcon = ({className,sw}) => <Svg className={className} sw={sw}><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></Svg>;
+const TargetIcon = ({className,sw}) => <Svg className={className} sw={sw}><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></Svg>;
+const SearchIcon = ({className,sw}) => <Svg className={className} sw={sw}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></Svg>;
+const MonitorIcon = ({className,sw}) => <Svg className={className} sw={sw}><rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></Svg>;
+const SendIcon = ({className,sw}) => <Svg className={className} sw={sw}><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></Svg>;
+const BarChartIcon = ({className,sw}) => <Svg className={className} sw={sw}><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></Svg>;
+const TrendingUpIcon = ({className,sw}) => <Svg className={className} sw={sw}><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></Svg>;
+
+/* ---- Constants ---- */
+const NAV_LINKS = [
+  { label: 'Home', href: '#home' },
+  { label: 'Services', href: '#services' },
+  { label: 'Approach', href: '#approach' },
+  { label: 'Process', href: '#process' },
+  { label: 'Contact', href: '#contact' },
+];
+
+const SERVICES_FULL = [
+  { Icon: LayersIcon, title: 'Brand Strategy & Identity', text: 'Positioning frameworks, naming architecture, and visual identity systems that set you apart in crowded, competitive markets.' },
+  { Icon: TargetIcon, title: 'Digital Advertising', text: 'High-ROI paid campaigns across Meta, Google, TikTok, and LinkedIn—optimized relentlessly for your acquisition goals.' },
+  { Icon: SearchIcon, title: 'Content & SEO', text: 'Authority-building content strategies and technical SEO that compound month over month, driving organic growth at scale.' },
+  { Icon: MonitorIcon, title: 'Web Design & Development', text: 'Conversion-optimized landing pages and full marketing sites built for speed, clarity, and measurable performance outcomes.' },
+  { Icon: SendIcon, title: 'Email & Automation', text: 'Sophisticated lifecycle campaigns and nurture sequences that move prospects from cold to loyal, high-value customers.' },
+  { Icon: BarChartIcon, title: 'Analytics & Reporting', text: 'Real-time dashboards and attribution modeling that transform raw marketing data into confident, decisive action.' },
+];
+
+/* ---- Navbar ---- */
+function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 80);
+    window.addEventListener('scroll', fn, { passive: true });
+    return () => window.removeEventListener('scroll', fn);
+  }, []);
+  return (
+    <>
+      <nav className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ${scrolled ? 'glass shadow-lg shadow-primary/10' : 'bg-transparent'} rounded-full px-4 sm:px-6 py-2.5 w-[calc(100%-2rem)] max-w-5xl`}>
+        <div className="flex items-center justify-between gap-6">
+          <a href="#home" className="flex items-center gap-2.5 group">
+            <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-primary">
+              <TrendingUpIcon className="h-4 w-4 text-white" sw={2.5}/>
+              <span className="absolute inset-0 rounded-full ring-2 ring-primary/40 group-hover:ring-primary/60 transition"/>
+            </span>
+            <span className="font-display font-bold tracking-tight text-lg text-white transition-colors">NovaMark</span>
+          </a>
+          <div className="hidden lg:flex items-center gap-7">
+            {NAV_LINKS.map(l => (
+              <a key={l.href} href={l.href}
+                className="text-sm font-medium tracking-tight lift-on-hover text-white/80 hover:text-white transition-colors">
+                {l.label}
+              </a>
+            ))}
+          </div>
+          <a href="#contact"
+            className="hidden lg:inline-flex magnetic-btn items-center gap-1.5 bg-primary text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg shadow-primary/30">
+            Start a Project <ArrowUpRightIcon className="h-4 w-4" sw={2.5}/>
+          </a>
+          <button onClick={() => setOpen(true)} className="lg:hidden p-2 rounded-full text-white" aria-label="Open menu">
+            <MenuIcon className="h-5 w-5"/>
+          </button>
+        </div>
+      </nav>
+      <div className={`fixed inset-0 z-[60] transition-all duration-500 lg:hidden ${open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+        <div className="absolute inset-0 bg-deep/90 backdrop-blur-2xl" onClick={() => setOpen(false)}/>
+        <div className={`absolute top-0 left-0 right-0 bg-surface rounded-b-5xl px-6 pt-8 pb-12 transition-transform duration-500 ${open ? 'translate-y-0' : '-translate-y-full'}`}>
+          <div className="flex items-center justify-between mb-10">
+            <span className="font-display font-bold text-xl text-ink">NovaMark</span>
+            <button onClick={() => setOpen(false)} className="p-2 rounded-full bg-divider/40">
+              <XIcon className="h-5 w-5 text-ink"/>
+            </button>
+          </div>
+          <div className="flex flex-col gap-1">
+            {NAV_LINKS.map(l => (
+              <a key={l.href} href={l.href} onClick={() => setOpen(false)}
+                className="font-display text-3xl font-semibold text-ink py-3 border-b border-divider">
+                {l.label}
+              </a>
+            ))}
+          </div>
+          <a href="#contact" onClick={() => setOpen(false)}
+            className="mt-8 magnetic-btn flex items-center justify-center gap-2 bg-primary text-white px-6 py-4 rounded-full font-semibold w-full">
+            Start a Project <ArrowUpRightIcon className="h-4 w-4"/>
+          </a>
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* ---- Hero ---- */
+function Hero() {
+  const heroRef = useRef(null);
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.hero-line-1', { y: 40, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.3 });
+      gsap.from('.hero-line-2', { y: 60, opacity: 0, duration: 1.2, ease: 'power3.out', delay: 0.5 });
+      gsap.from('.hero-cta, .hero-meta', { y: 24, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.8, stagger: 0.12 });
+    }, heroRef);
+    return () => ctx.revert();
+  }, []);
+  return (
+    <section id="home" ref={heroRef} className="relative min-h-[100dvh] w-full overflow-hidden">
+      <div className="absolute inset-0">
+        <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=2400&q=80"
+          alt="NovaMark team" className="w-full h-full object-cover"/>
+        <div className="absolute inset-0 bg-gradient-to-tr from-deep/90 via-deep/55 to-primary/20"/>
+        <div className="absolute inset-0 bg-gradient-to-t from-deep via-deep/30 to-transparent"/>
+      </div>
+      {/* Floating accent particles */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 right-[18%] h-2 w-2 rounded-full bg-primary/70 animate-float" style={{animationDelay:'0s'}}/>
+        <div className="absolute top-[55%] right-[10%] h-1.5 w-1.5 rounded-full bg-white/40 animate-float" style={{animationDelay:'1.5s'}}/>
+        <div className="absolute top-[40%] right-[26%] h-1 w-1 rounded-full bg-primary/50 animate-float" style={{animationDelay:'3s'}}/>
+      </div>
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"/>
+      <div className="relative z-10 flex min-h-[100dvh] flex-col items-center justify-center text-center">
+        <div className="px-6 sm:px-10 lg:px-16 max-w-5xl">
+          <p className="hero-meta font-mono text-xs uppercase tracking-[0.25em] text-white/60 mb-6">
+            Est. 2014 · New York, NY
+          </p>
+          <h1 className="font-display font-extrabold text-white leading-[0.95] tracking-tight">
+            <span className="hero-line-1 block text-4xl sm:text-6xl md:text-7xl">Marketing that</span>
+            <span className="hero-line-2 block font-serif italic font-medium text-primary text-6xl sm:text-8xl md:text-9xl mt-2" style={{lineHeight:'0.9'}}>
+              moves markets.
+            </span>
+          </h1>
+          <p className="hero-meta mx-auto max-w-xl text-white/70 text-base sm:text-lg mt-8 leading-relaxed">
+            We turn ambitious brands into category leaders through sharp strategy, compelling creative, and
+            <span className="text-white"> data-driven optimization that actually moves numbers.</span>
+          </p>
+          <div className="hero-cta mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="#contact" className="magnetic-btn group inline-flex items-center justify-center gap-2 bg-primary text-white font-semibold px-8 py-4 rounded-full shadow-2xl shadow-primary/40">
+              Start a Project <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5"/>
+            </a>
+            <a href="tel:+15550000000" className="lift-on-hover inline-flex items-center justify-center gap-2 glass-dark text-white border border-white/20 font-medium px-8 py-4 rounded-full">
+              <PhoneIcon className="h-4 w-4"/> +1 (555) 000-0000
+            </a>
+          </div>
+        </div>
+        <div className="absolute bottom-8 right-6 sm:right-12 hidden md:flex flex-col items-center gap-2 text-white/40">
+          <span className="font-mono uppercase text-[10px] tracking-[0.3em]">Scroll</span>
+          <div className="h-8 w-px bg-gradient-to-b from-white/40 to-transparent"/>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---- Feature Card 1: Campaign Shuffler ---- */
+function CampaignShuffler() {
+  const items = [
+    { tag: 'Brand', label: 'Brand Positioning & Identity Architecture', kpi: 'Q1 ✓' },
+    { tag: 'Paid', label: 'Multi-Channel Paid Media Strategy', kpi: 'ROAS 4.2x' },
+    { tag: 'Organic', label: 'SEO & Authority Content Roadmap', kpi: '+38% MoM' },
+  ];
+  const [stack, setStack] = useState(items);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setStack(prev => { const n = [...prev]; n.unshift(n.pop()); return n; });
+    }, 3000);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <div className="relative h-44 w-full">
+      {stack.map((item, i) => (
+        <div key={item.tag} style={{
+          transform: `translate(${i*14}px, ${i*14}px) scale(${1-i*0.05})`,
+          zIndex: stack.length - i, opacity: 1-i*0.25,
+          transition: 'transform 0.7s cubic-bezier(0.34,1.56,0.64,1), opacity 0.6s ease',
+        }}
+          className="absolute inset-0 bg-surface border border-divider rounded-3xl p-5 shadow-md">
+          <div className="flex items-center justify-between">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-primary bg-primary/15 px-2 py-1 rounded-full">{item.tag}</span>
+            <span className="font-mono text-xs text-muted">{item.kpi}</span>
+          </div>
+          <div className="mt-4 font-display text-lg font-semibold text-ink leading-tight">{item.label}</div>
+          <div className="mt-3 flex items-center gap-1">
+            {Array.from({length:24}).map((_,idx) => (
+              <span key={idx} className="h-1 w-1 rounded-full" style={{background: idx < 24-i*6 ? '#DC2626' : '#262628'}}/>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ---- Feature Card 2: CampaignFlow Signature Animation ---- */
+function CampaignFlow() {
+  const [statusIdx, setStatusIdx] = useState(0);
+  const [hitCount, setHitCount] = useState(12);
+  const statuses = [
+    { text: 'Analyzing audience signals · zone 3', label: 'Analyzing', tone: 'primary' },
+    { text: 'Campaign active · 4 channels live', label: 'Live', tone: 'emerald' },
+    { text: 'Optimizing bids · CPL ↓ 18%', label: 'Optimizing', tone: 'primary' },
+    { text: 'Target exceeded · +143% ROAS', label: 'Hit', tone: 'emerald' },
+  ];
+  useEffect(() => {
+    const id = setInterval(() => {
+      setStatusIdx(idx => {
+        const next = (idx + 1) % statuses.length;
+        if (statuses[next].label === 'Hit') setHitCount(c => c + 1);
+        return next;
+      });
+    }, 2300);
+    return () => clearInterval(id);
+  }, []);
+
+  const bars = [
+    { left:'14%', delay:'0.0s', dur:'2.6s', h:28 },
+    { left:'24%', delay:'1.3s', dur:'3.0s', h:22 },
+    { left:'36%', delay:'0.6s', dur:'2.8s', h:32 },
+    { left:'50%', delay:'1.8s', dur:'2.4s', h:26 },
+    { left:'63%', delay:'0.9s', dur:'3.1s', h:30 },
+    { left:'75%', delay:'2.0s', dur:'2.7s', h:24 },
+    { left:'86%', delay:'0.4s', dur:'2.9s', h:28 },
+  ];
+  const ripples = [{ left:'24%', delay:'0.2s' }, { left:'50%', delay:'1.0s' }, { left:'76%', delay:'1.8s' }];
+  const status = statuses[statusIdx];
+  const toneText = status.tone === 'emerald' ? 'text-emerald-400' : 'text-primary-light';
+  const toneDot = status.tone === 'emerald' ? 'bg-emerald-400' : 'bg-primary';
+
+  return (
+    <div className="relative h-44 w-full rounded-3xl overflow-hidden border border-primary/20"
+      style={{background:'linear-gradient(180deg,#FFF5F5 0%,#FFE8E8 70%,#FFD5D5 100%)'}}>
+      <div className="absolute -top-8 -left-6 h-20 w-32 rounded-full bg-white/70 blur-2xl"/>
+      <div className="absolute top-2 right-10 h-14 w-24 rounded-full bg-white/60 blur-xl"/>
+      {/* Header strip */}
+      <div className="absolute top-3 left-4 right-4 flex items-center justify-between z-20">
+        <div className="flex items-center gap-2">
+          <BarChartIcon className="h-3.5 w-3.5 text-primary-dark" sw={2.2}/>
+          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-primary-dark">Campaign Analytics</span>
+        </div>
+        <div className="flex items-baseline gap-1">
+          <span className="font-display font-bold text-sm text-primary-dark tabular-nums">{String(hitCount).padStart(2,'0')}</span>
+          <span className="font-mono text-[9px] uppercase tracking-widest text-primary-dark/60">targets</span>
+        </div>
+      </div>
+      {/* Source: chart bars display at top */}
+      <svg className="absolute left-3 right-3 top-9 h-5" viewBox="0 0 400 20" preserveAspectRatio="none">
+        <rect x="0" y="6" width="400" height="8" rx="4" fill="#DC2626" fillOpacity="0.18"/>
+        <rect x="0" y="7" width="400" height="2" fill="#991B1B" fillOpacity="0.35"/>
+        {[40,80,120,160,200,240,280,320,360].map(x => (
+          <rect key={x} x={x-2} y="2" width="4" height="16" rx="1" fill="#DC2626" fillOpacity="0.5"/>
+        ))}
+      </svg>
+      {/* Metric bars falling */}
+      <div className="absolute inset-x-0 top-14 bottom-11 overflow-hidden">
+        {bars.map((b,i) => (
+          <svg key={i} className="absolute top-0"
+            style={{left:b.left, width:`${b.h*0.45}px`, height:`${b.h}px`,
+              animation:`rain-fall ${b.dur} cubic-bezier(0.55,0.05,0.7,0.45) ${b.delay} infinite`,
+              filter:'drop-shadow(0 1px 3px rgba(220,38,38,0.35))', transform:'translateX(-50%)'}}
+            viewBox="0 0 14 32">
+            <defs>
+              <linearGradient id={`bar-${i}`} x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#FECACA"/>
+                <stop offset="50%" stopColor="#DC2626"/>
+                <stop offset="100%" stopColor="#991B1B"/>
+              </linearGradient>
+            </defs>
+            <rect x="2" y="2" width="10" height="28" rx="2.5" fill={`url(#bar-${i})`}/>
+            <rect x="4" y="4" width="3" height="8" rx="1" fill="white" fillOpacity="0.45"/>
+          </svg>
+        ))}
+      </div>
+      {/* Baseline axis */}
+      <svg className="absolute bottom-9 left-3 right-3 h-3" viewBox="0 0 200 12" preserveAspectRatio="none">
+        <line x1="0" y1="6" x2="200" y2="6" stroke="#DC2626" strokeOpacity="0.4" strokeWidth="1.5"/>
+        {[20,40,60,80,100,120,140,160,180].map(x => (
+          <line key={x} x1={x} y1="3" x2={x} y2="9" stroke="#DC2626" strokeOpacity="0.3" strokeWidth="1"/>
+        ))}
+      </svg>
+      {/* Ripples on baseline */}
+      <div className="absolute bottom-[34px] left-3 right-3 h-2">
+        {ripples.map((r,i) => (
+          <span key={i} className="absolute top-0 -translate-x-1/2 rounded-full border border-primary/50"
+            style={{left:r.left, width:'4px', height:'4px', animation:`rain-ripple 2.4s ease-out ${r.delay} infinite`}}/>
+        ))}
+      </div>
+      {/* Status */}
+      <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between z-20">
+        <div className="flex items-center gap-2 min-w-0">
+          <span className={`relative h-2 w-2 rounded-full ${toneDot}`}>
+            {status.tone === 'emerald' && <span className="absolute inset-0 rounded-full bg-emerald-400 animate-ping"/>}
+          </span>
+          <span key={status.text} className={`font-mono text-[10px] truncate ${toneText}`}
+            style={{animation:'rain-fadein 0.35s ease-out'}}>{status.text}</span>
+        </div>
+        <span className={`font-mono text-[9px] uppercase tracking-[0.2em] whitespace-nowrap pl-2 ${toneText}`}>{status.label}</span>
+      </div>
+    </div>
+  );
+}
+
+/* ---- Feature Card 3: Media Planner ---- */
+function MediaPlanner() {
+  const days = ['M','T','W','T','F','S','S'];
+  const [step, setStep] = useState(0);
+  const activeDay = 3;
+  useEffect(() => {
+    const id = setInterval(() => setStep(s => (s+1)%5), 1400);
+    return () => clearInterval(id);
+  }, []);
+  const cursor = (() => {
+    switch(step) {
+      case 0: return {x:8, y:110, opacity:0};
+      case 1: return {x:55, y:58, opacity:1};
+      case 2: return {x:55+activeDay*34, y:58, opacity:1};
+      case 3: return {x:55+activeDay*34, y:58, opacity:1};
+      case 4: return {x:130, y:132, opacity:1};
+      default: return {x:8, y:110, opacity:0};
+    }
+  })();
+  return (
+    <div className="relative h-44 w-full bg-surface border border-divider rounded-3xl p-5 overflow-hidden">
+      <div className="flex items-center justify-between mb-3">
+        <span className="font-mono text-[10px] uppercase tracking-widest text-muted">Week 14 · April</span>
+        <span className="font-mono text-[10px] uppercase tracking-widest text-primary bg-primary/15 px-2 py-0.5 rounded-full">Scheduling</span>
+      </div>
+      <div className="grid grid-cols-7 gap-1.5 mb-3">
+        {days.map((d,idx) => (
+          <div key={idx} className={`flex flex-col items-center justify-center h-9 rounded-xl text-xs font-medium transition-all duration-300 ${step>=3&&idx===activeDay ? 'bg-primary text-white scale-110 shadow-lg shadow-primary/30' : 'bg-background text-ink'}`}>
+            <span className="font-mono text-[9px] text-muted">{d}</span>
+            <span className="font-display font-semibold text-sm">{idx+7}</span>
+          </div>
+        ))}
+      </div>
+      <button className={`w-full py-2.5 rounded-2xl font-medium text-xs transition-all duration-300 ${step===4 ? 'bg-primary text-white scale-[1.02] shadow-md shadow-primary/30' : 'bg-divider/60 text-muted'}`}>
+        {step>=3 ? '✓ Campaign launch confirmed' : 'Select a launch date'}
+      </button>
+      <div className="absolute pointer-events-none transition-all duration-500 ease-out"
+        style={{left:`${cursor.x}px`, top:`${cursor.y}px`, opacity:cursor.opacity, transform:step===3?'scale(0.85)':'scale(1)'}}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M5 3L19 12L12 13L9 20L5 3Z" fill="#F5F5F5" stroke="#DC2626" strokeWidth="1.5" strokeLinejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+/* ---- Features Section ---- */
+function Features() {
+  const sectionRef = useRef(null);
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.feature-card', {
+        scrollTrigger: { trigger: sectionRef.current, start:'top 90%', once:true },
+        y: 40, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.15,
+      });
+      gsap.from('.feature-heading > *', {
+        scrollTrigger: { trigger: sectionRef.current, start:'top 95%', once:true },
+        y: 30, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.08,
+      });
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
+
+  const cards = [
+    { eyebrow:'01 / Strategy', heading:'Brand & Strategy', sub:'Where growth begins', text:'We map your brand, define your edge, and build the strategic foundation that makes every downstream tactic work harder and smarter.', Component:CampaignShuffler },
+    { eyebrow:'02 / Performance', heading:'Campaign Analytics', sub:'Live & always-on', text:'Every campaign we run is monitored in real time. We optimize bids, creative, and audience targeting continuously—never set-and-forget.', Component:CampaignFlow },
+    { eyebrow:'03 / Media', heading:'Media Planning', sub:'Precision timing', text:'Reach your audience at exactly the right moment. Our media planners schedule campaigns with surgical precision across every relevant channel.', Component:MediaPlanner },
+  ];
+
+  return (
+    <section id="services" ref={sectionRef} className="relative py-28 sm:py-40 px-6 sm:px-10 lg:px-16">
+      <div className="max-w-7xl mx-auto">
+        <div className="feature-heading max-w-3xl mb-16 sm:mb-24">
+          <span className="font-mono text-xs uppercase tracking-[0.25em] text-primary">↑ Core capabilities</span>
+          <h2 className="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl text-ink mt-4 leading-[1.05] tracking-tight">
+            Three disciplines.
+            <span className="block font-serif italic font-medium text-primary mt-1">One standard.</span>
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {cards.map((card,idx) => (
+            <article key={idx} className="feature-card group relative bg-surface border border-divider rounded-5xl p-7 hover:border-primary/40 transition-colors duration-500 shadow-sm hover:shadow-xl hover:shadow-primary/10">
+              <div className="flex items-center justify-between mb-6">
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">{card.eyebrow}</span>
+                <ArrowUpRightIcon className="h-5 w-5 text-ink/20 group-hover:text-primary group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" sw={1.8}/>
+              </div>
+              <card.Component/>
+              <div className="mt-6">
+                <h3 className="font-display font-bold text-2xl text-ink leading-tight">{card.heading}</h3>
+                <p className="font-serif italic text-primary text-sm mt-1">{card.sub}</p>
+                <p className="text-muted text-[15px] mt-4 leading-relaxed">{card.text}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---- CountUp ---- */
+function CountUp({ target, duration=1800 }) {
+  const [count, setCount] = useState(0);
+  const elemRef = useRef(null);
+  const startedRef = useRef(false);
+  useEffect(() => {
+    const el = elemRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !startedRef.current) {
+          startedRef.current = true;
+          const start = performance.now();
+          const animate = now => {
+            const p = Math.min((now-start)/duration, 1);
+            const eased = 1-Math.pow(1-p, 3);
+            setCount(Math.floor(target*eased));
+            if (p<1) requestAnimationFrame(animate);
+            else setCount(target);
+          };
+          requestAnimationFrame(animate);
+        }
+      });
+    }, { threshold:0.35 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [target, duration]);
+  return <span ref={elemRef}>{count}</span>;
+}
+
+/* ---- Pillars ---- */
+function Pillars() {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if(e.isIntersecting){setVisible(true);obs.disconnect();} }, {threshold:0.15});
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  const pillars = [
+    { n:'01', title:'Experience', target:10, suffix:'+', label:'years in market', desc:'A decade of performance marketing across consumer, B2B, e-commerce, and enterprise categories—tested in every market condition.' },
+    { n:'02', title:'Scale', target:200, suffix:'+', label:'brands served', desc:'From early-stage startups to global enterprises, we\'ve built campaigns that meet brands exactly where they are and take them further.' },
+    { n:'03', title:'Impact', target:50, suffix:'M+', label:'in client revenue', desc:'$50M in directly tracked client revenue. We measure what matters and report it with the honesty our clients have come to rely on.' },
+  ];
+
+  return (
+    <section id="approach" ref={ref} className="relative py-28 sm:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden">
+      <div className="absolute inset-0 grid-bg opacity-60"/>
+      <div className="absolute -top-32 left-1/2 -translate-x-1/2 h-64 w-[44rem] rounded-full bg-primary/10 blur-3xl pointer-events-none"/>
+      <div className="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-primary/5 blur-3xl pointer-events-none"/>
+      <div className="relative max-w-7xl mx-auto">
+        <div className={`flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16 sm:mb-24 transition-all duration-1000 ease-out ${visible?'opacity-100 translate-y-0':'opacity-0 translate-y-6'}`}>
+          <div className="max-w-2xl">
+            <span className="inline-block font-mono text-xs uppercase tracking-[0.3em] text-primary mb-5">↑ Our proof points</span>
+            <h2 className="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl text-ink leading-[1.05] tracking-tight">
+              Numbers behind
+              <span className="block font-serif italic font-medium text-primary">the results.</span>
+            </h2>
+          </div>
+          <p className="text-muted text-lg leading-relaxed max-w-md lg:text-right">
+            Three figures that define how we operate. Not marketing copy—just what we actually deliver.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-divider rounded-5xl overflow-hidden border border-divider shadow-xl shadow-primary/5">
+          {pillars.map((p,i) => (
+            <article key={i} style={{transitionDelay:visible?`${i*150}ms`:'0ms'}}
+              className={`relative bg-surface p-9 sm:p-12 group overflow-hidden transition-all duration-1000 ease-out ${visible?'opacity-100 translate-y-0':'opacity-0 translate-y-10'}`}>
+              <div className="flex items-center justify-between mb-10">
+                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted">{p.n} / {p.title}</span>
+                <span className="h-1.5 w-1.5 rounded-full bg-primary/40 group-hover:bg-primary group-hover:scale-150 transition-all duration-500"/>
+              </div>
+              <div className="flex items-end gap-1 leading-none">
+                <span className="font-display font-extrabold text-[6rem] sm:text-[7.5rem] md:text-[8rem] leading-[0.85] text-ink tabular-nums tracking-tight">
+                  <CountUp target={p.target} duration={1800+i*200}/>
+                </span>
+                <span className="font-serif italic font-medium text-3xl sm:text-4xl text-primary mb-3 sm:mb-4">{p.suffix}</span>
+              </div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-primary mt-5">{p.label}</p>
+              <p className="text-muted text-[15px] mt-6 leading-relaxed max-w-xs">{p.desc}</p>
+              <div className="absolute bottom-0 left-9 right-9 sm:left-12 sm:right-12 h-px bg-divider overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-transparent via-primary to-transparent"
+                  style={{animation:`pillar-sweep 4s ease-in-out ${i*0.4}s infinite`}}/>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---- Protocol ---- */
+function Protocol() {
+  const containerRef = useRef(null);
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const cards = gsap.utils.toArray('.protocol-card');
+      cards.forEach((card, i) => {
+        if (i === cards.length-1) return;
+        gsap.to(card, {
+          scrollTrigger: { trigger:card, start:'top top+=100', endTrigger:cards[cards.length-1], end:'top top+=120', scrub:1 },
+          scale:0.92, filter:'blur(6px) saturate(0.7)', opacity:0.5, ease:'none',
+        });
+      });
+    }, containerRef);
+    return () => ctx.revert();
+  }, []);
+
+  const steps = [
+    { num:'01', title:'Discovery & Audit', tagline:'We listen first.', text:'We study your brand, market position, competitors, and past performance before recommending a single tactic. Clarity before creative, always.', image:'https://images.unsplash.com/photo-1553484771-371a605b060b?auto=format&fit=crop&w=1200&q=80', alt:'Strategy session', meta:'Step 1 / Discover' },
+    { num:'02', title:'Strategy & Creative', tagline:'We build the blueprint.', text:'Data-driven strategy paired with breakthrough creative that cuts through noise, resonates with your audience, and drives measurable action.', image:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80', alt:'Analytics dashboard', meta:'Step 2 / Build' },
+    { num:'03', title:'Launch & Optimize', tagline:'We never stop improving.', text:'We deploy, measure, and relentlessly iterate. Every campaign gets smarter over time, compounding returns and lowering cost per acquisition.', image:'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80', alt:'Team at launch', meta:'Step 3 / Grow' },
+  ];
+
+  return (
+    <section id="process" ref={containerRef} className="relative px-4 sm:px-6 py-20">
+      <div className="max-w-7xl mx-auto mb-16 px-2 sm:px-10">
+        <span className="font-mono text-xs uppercase tracking-[0.25em] text-primary">↑ How we work</span>
+        <h2 className="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl text-ink mt-4 leading-[1.05] tracking-tight max-w-3xl">
+          Three steps.
+          <span className="block font-serif italic font-medium text-primary">No surprises.</span>
+        </h2>
+      </div>
+      <div className="space-y-8">
+        {steps.map((step,idx) => (
+          <article key={idx} className="protocol-card sticky top-24 sm:top-28 mx-auto max-w-6xl bg-surface border border-divider rounded-6xl overflow-hidden shadow-2xl shadow-primary/5">
+            <div className="grid lg:grid-cols-5 gap-0 min-h-[60vh] lg:min-h-[70vh]">
+              <div className="lg:col-span-3 p-8 sm:p-12 lg:p-16 flex flex-col justify-between">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs uppercase tracking-[0.25em] text-muted">{step.meta}</span>
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-primary bg-primary/15 px-2.5 py-1 rounded-full">NovaMark Protocol</span>
+                </div>
+                <div className="my-12">
+                  <span className="font-display font-extrabold text-[7rem] sm:text-[9rem] leading-none text-primary/12 -mb-4 block">{step.num}</span>
+                  <h3 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl text-ink leading-[1.02] tracking-tight">{step.title}</h3>
+                  <p className="font-serif italic text-primary text-2xl sm:text-3xl mt-3">{step.tagline}</p>
+                </div>
+                <p className="text-muted text-base sm:text-lg leading-relaxed max-w-lg">{step.text}</p>
+              </div>
+              <div className="lg:col-span-2 relative overflow-hidden min-h-[300px] lg:min-h-full bg-deep">
+                <img src={step.image} alt={step.alt} loading="lazy" className="absolute inset-0 w-full h-full object-cover"/>
+                <div className="absolute inset-0 bg-gradient-to-t from-deep/60 via-transparent to-deep/15"/>
+                <div className="absolute top-5 left-5 flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full pl-3 pr-4 py-1.5 border border-white/20">
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary ring-pulse"/>
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-white">Step {step.num}</span>
+                </div>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ---- Services Grid ---- */
+function ServicesGrid() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.svc-tile', {
+        scrollTrigger: { trigger:ref.current, start:'top 90%', once:true },
+        y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.06,
+      });
+    }, ref);
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section ref={ref} className="relative py-24 px-6 sm:px-10 lg:px-16 bg-deep text-white overflow-hidden rounded-t-6xl">
+      <div className="absolute inset-0 grid-bg opacity-20"/>
+      <div className="absolute -top-20 -right-20 h-96 w-96 rounded-full bg-primary/15 blur-3xl"/>
+      <div className="absolute bottom-0 -left-20 h-72 w-72 rounded-full bg-primary/8 blur-3xl"/>
+      <div className="relative max-w-7xl mx-auto">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 mb-14">
+          <div>
+            <span className="font-mono text-xs uppercase tracking-[0.25em] text-primary">↑ Full service menu</span>
+            <h2 className="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl mt-4 leading-[1.05] tracking-tight">
+              Everything you need,
+              <span className="block font-serif italic font-medium text-primary">under one roof.</span>
+            </h2>
+          </div>
+          <p className="text-white/60 max-w-md text-base leading-relaxed">
+            End-to-end marketing execution with no handoffs, no finger-pointing, and no excuses.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/8 rounded-4xl overflow-hidden">
+          {SERVICES_FULL.map((svc,i) => {
+            const SvcIcon = svc.Icon;
+            return (
+              <div key={i} className="svc-tile group bg-deep p-7 sm:p-9 hover:bg-white/[0.02] transition-colors duration-500 relative">
+                <div className="flex items-start justify-between mb-6">
+                  <div className="h-12 w-12 rounded-2xl bg-primary/15 border border-primary/30 flex items-center justify-center group-hover:bg-primary group-hover:scale-110 transition-all duration-500">
+                    <SvcIcon className="h-5 w-5 text-primary group-hover:text-white" sw={2}/>
+                  </div>
+                  <span className="font-mono text-[10px] text-white/25 uppercase tracking-widest">{String(i+1).padStart(2,'0')}</span>
+                </div>
+                <h3 className="font-display font-bold text-xl sm:text-2xl mb-3">{svc.title}</h3>
+                <p className="text-white/55 text-sm leading-relaxed">{svc.text}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---- Trust Signals ---- */
+function TrustSignals() {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if(e.isIntersecting){setVisible(true);obs.disconnect();} }, {threshold:0.15});
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  const badges = [
+    { Icon:ShieldCheckIcon, title:'Google Premier Partner', text:'Certified at the highest tier for Google Ads with direct access to beta products, dedicated support, and advanced optimization tools.' },
+    { Icon:AwardIcon, title:'Meta Blueprint Certified', text:'Official certification covering paid social strategy, advanced media buying, and creative performance optimization across Facebook and Instagram.' },
+    { Icon:ClockIcon, title:'10+ Years in Market', text:'A decade of proven execution across consumer brands, B2B SaaS, e-commerce, and enterprise—tested through every market cycle.' },
+  ];
+
+  return (
+    <section ref={ref} className="relative py-14 sm:py-20 px-6">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-8">
+          <span className="font-mono text-xs uppercase tracking-[0.25em] text-primary">↑ Why trust NovaMark</span>
+          <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-ink mt-3 tracking-tight">
+            Credentials that matter.
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+          {badges.map(({Icon:BadgeIcon, title, text}, i) => (
+            <div key={i} style={{transitionDelay:visible?`${i*120}ms`:'0ms'}}
+              className={`bg-surface border border-divider rounded-4xl p-6 hover:border-primary/40 transition-all duration-700 ease-out shadow-sm ${visible?'opacity-100 translate-y-0':'opacity-0 translate-y-6'}`}>
+              <BadgeIcon className="h-6 w-6 text-primary mb-3" sw={1.8}/>
+              <h3 className="font-display font-bold text-lg text-ink mb-1.5">{title}</h3>
+              <p className="text-muted text-sm leading-relaxed">{text}</p>
+            </div>
+          ))}
+        </div>
+        <div className="text-center">
+          <a href="#contact" className="magnetic-btn inline-flex items-center gap-2 bg-primary text-white font-semibold px-7 py-3.5 rounded-full shadow-xl shadow-primary/30">
+            Start a Project <ArrowRightIcon className="h-4 w-4"/>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---- Contact Form ---- */
+function Field({ label, type='text', required, value, onChange, placeholder }) {
+  return (
+    <div>
+      <label className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted mb-2 block">{label}{required&&' *'}</label>
+      <input type={type} required={required} value={value} onChange={e=>onChange(e.target.value)} placeholder={placeholder||''}
+        className="w-full bg-background border border-divider rounded-2xl px-4 py-3.5 text-ink placeholder-muted/50 focus:border-primary focus:ring-4 focus:ring-primary/15 outline-none transition font-body"/>
+    </div>
+  );
+}
+
+function ContactForm() {
+  const [form, setForm] = useState({ name:'', email:'', phone:'', zip:'', message:'' });
+  const [files, setFiles] = useState([]);
+  const [status, setStatus] = useState('idle');
+  const dropRef = useRef(null);
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    if (!form.name || !form.email || !form.message) return;
+    setStatus('sending');
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/ugohmirad01@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone || 'Not provided',
+          company: form.zip || 'Not provided',
+          message: form.message,
+          _subject: `New inquiry from ${form.name} — NovaMark`,
+          _replyto: form.email,
+          _template: 'table',
+        }),
+      });
+      const data = await res.json();
+      if (data.success === 'true' || data.success === true) {
+        setStatus('sent');
+      } else {
+        console.error('Formsubmit response:', data);
+        openMailtoFallback();
+      }
+    } catch (err) {
+      console.error('Formsubmit fetch error:', err);
+      openMailtoFallback();
+    }
+  };
+
+  const openMailtoFallback = () => {
+    const subject = encodeURIComponent(`New inquiry from ${form.name} — NovaMark`);
+    const body = encodeURIComponent(
+      `Name: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone || 'Not provided'}\nCompany: ${form.zip || 'Not provided'}\n\nMessage:\n${form.message}`
+    );
+    window.open(`mailto:ugohmirad01@gmail.com?subject=${subject}&body=${body}`);
+    setStatus('sent');
+  };
+  const handleFiles = newFiles => setFiles(prev => [...prev, ...Array.from(newFiles)].slice(0,5));
+
+  return (
+    <section id="contact" className="relative py-24 sm:py-32 px-6 sm:px-10 lg:px-16 bg-background">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-16">
+          <div className="lg:col-span-5">
+            <span className="font-mono text-xs uppercase tracking-[0.25em] text-primary">↑ Get in touch</span>
+            <h2 className="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl text-ink mt-4 leading-[1.05] tracking-tight">
+              Ready to
+              <span className="block font-serif italic font-medium text-primary">move markets?</span>
+            </h2>
+            <p className="text-muted text-lg mt-6 leading-relaxed max-w-md">
+              Tell us about your brand and goals. We'll come back to you within one business day with a clear plan of action.
+            </p>
+            <div className="mt-10 space-y-4">
+              {[
+                { href:'tel:+15550000000', Icon:PhoneIcon, label:'Call us', value:'+1 (555) 000-0000' },
+                { href:'mailto:hello@novamark.com', Icon:MailIcon, label:'Email us', value:'hello@novamark.com' },
+              ].map(({href,Icon:CIcon,label,value}) => (
+                <a key={href} href={href} className="lift-on-hover flex items-center gap-4 group">
+                  <span className="h-12 w-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary transition">
+                    <CIcon className="h-5 w-5 text-primary group-hover:text-white" sw={2}/>
+                  </span>
+                  <span>
+                    <span className="block font-mono text-[10px] uppercase tracking-widest text-muted">{label}</span>
+                    <span className="font-display font-semibold text-ink text-lg">{value}</span>
+                  </span>
+                </a>
+              ))}
+              <div className="flex items-center gap-4">
+                <span className="h-12 w-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+                  <MapPinIcon className="h-5 w-5 text-primary" sw={2}/>
+                </span>
+                <span>
+                  <span className="block font-mono text-[10px] uppercase tracking-widest text-muted">Location</span>
+                  <span className="font-display font-semibold text-ink text-lg">New York, NY</span>
+                </span>
+              </div>
+            </div>
+            <div className="mt-10 p-5 rounded-3xl bg-primary/8 border border-primary/15">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-primary mb-2">Hours</p>
+              <p className="text-sm text-muted leading-relaxed">Mon–Fri, 9am–6pm EST. We reply to all inquiries within one business day.</p>
+            </div>
+          </div>
+          <div className="lg:col-span-7">
+            <form onSubmit={handleSubmit} className="bg-surface border border-divider rounded-5xl p-7 sm:p-10 shadow-xl shadow-primary/5">
+              {status !== 'sent' && status !== 'error' ? (
+                <>
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    <Field label="Full name" required value={form.name} onChange={v=>setForm({...form,name:v})} placeholder="Jane Smith"/>
+                    <Field label="Email address" type="email" required value={form.email} onChange={v=>setForm({...form,email:v})} placeholder="jane@company.com"/>
+                    <Field label="Phone number" type="tel" value={form.phone} onChange={v=>setForm({...form,phone:v})} placeholder="+1 (555) 000-0000"/>
+                    <Field label="Company / Website" value={form.zip} onChange={v=>setForm({...form,zip:v})} placeholder="acme.com"/>
+                  </div>
+                  <div className="mt-5">
+                    <label className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted mb-2 block">Tell us about your project *</label>
+                    <textarea value={form.message} onChange={e=>setForm({...form,message:e.target.value})} required rows={5}
+                      placeholder="What are your goals, current challenges, and budget range?"
+                      className="w-full bg-background border border-divider rounded-2xl px-4 py-3.5 text-ink placeholder-muted/50 focus:border-primary focus:ring-4 focus:ring-primary/15 outline-none transition resize-none font-body"/>
+                  </div>
+                  <div ref={dropRef}
+                    onDragOver={e=>{e.preventDefault();dropRef.current?.classList.add('!border-primary','!bg-primary/5');}}
+                    onDragLeave={()=>dropRef.current?.classList.remove('!border-primary','!bg-primary/5')}
+                    onDrop={e=>{e.preventDefault();dropRef.current?.classList.remove('!border-primary','!bg-primary/5');handleFiles(e.dataTransfer.files);}}
+                    className="mt-5 border-2 border-dashed border-divider rounded-3xl p-6 text-center hover:border-primary/50 transition-colors cursor-pointer">
+                    <input type="file" multiple id="file-up" className="hidden" onChange={e=>handleFiles(e.target.files)} accept="image/*,.pdf"/>
+                    <label htmlFor="file-up" className="cursor-pointer block">
+                      <UploadIcon className="h-6 w-6 mx-auto text-primary mb-2"/>
+                      <p className="font-display font-semibold text-ink text-sm">Attach brand assets or briefs</p>
+                      <p className="text-xs text-muted mt-1">Click or drag files here (max 5 files)</p>
+                      {files.length > 0 && (
+                        <div className="mt-4 flex flex-wrap gap-2 justify-center">
+                          {files.map((f,i) => (
+                            <span key={i} className="inline-flex items-center gap-1.5 bg-primary/15 text-primary text-xs px-3 py-1.5 rounded-full font-mono">
+                              <CheckCircleIcon className="h-3 w-3"/> {f.name.length>22?f.name.slice(0,22)+'…':f.name}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </label>
+                  </div>
+                  <div className="mt-7 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <p className="text-xs text-muted">We'll respond within 1 business day. Fields marked * are required.</p>
+                    <button type="submit" disabled={status==='sending'}
+                      className="magnetic-btn inline-flex items-center gap-2 bg-primary text-white font-semibold px-7 py-3.5 rounded-full shadow-lg shadow-primary/30 disabled:opacity-50">
+                      {status==='sending' ? 'Sending…' : 'Send message'} <ArrowRightIcon className="h-4 w-4"/>
+                    </button>
+                  </div>
+                </>
+              ) : status === 'error' ? (
+                <div className="text-center py-12">
+                  <div className="h-16 w-16 mx-auto rounded-full bg-red-500/15 flex items-center justify-center mb-6">
+                    <XIcon className="h-8 w-8 text-red-400"/>
+                  </div>
+                  <h3 className="font-display font-bold text-2xl text-ink mb-3">Something went wrong</h3>
+                  <p className="text-muted max-w-md mx-auto mb-6">Your message couldn't be sent. Please try again or email us directly at <a href="mailto:ugohmirad01@gmail.com" className="text-primary underline">ugohmirad01@gmail.com</a>.</p>
+                  <button onClick={() => setStatus('idle')} className="magnetic-btn inline-flex items-center gap-2 bg-primary text-white font-semibold px-6 py-3 rounded-full">
+                    Try again
+                  </button>
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <div className="h-16 w-16 mx-auto rounded-full bg-primary/15 flex items-center justify-center mb-6">
+                    <CheckCircleIcon className="h-8 w-8 text-primary" sw={1.8}/>
+                  </div>
+                  <h3 className="font-display font-bold text-2xl text-ink mb-3">Message received</h3>
+                  <p className="text-muted max-w-md mx-auto">Thanks for reaching out. A NovaMark strategist will be in touch within one business day.</p>
+                </div>
+              )}
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---- Footer ---- */
+function Footer() {
+  return (
+    <footer className="relative bg-deep text-white rounded-t-6xl mt-12 overflow-hidden">
+      <div className="absolute inset-0 grid-bg opacity-15"/>
+      <div className="absolute -top-32 left-1/2 -translate-x-1/2 h-64 w-[40rem] rounded-full bg-primary/15 blur-3xl"/>
+      <div className="relative px-6 sm:px-10 lg:px-16 pt-20 pb-10 max-w-7xl mx-auto">
+        <div className="border-b border-white/10 pb-12 mb-12">
+          <h2 className="font-display font-extrabold text-5xl sm:text-7xl md:text-8xl leading-[0.92] tracking-tight">
+            Marketing that
+            <span className="font-serif italic font-medium text-primary block">moves markets.</span>
+          </h2>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mt-8 gap-6">
+            <p className="text-white/50 max-w-md">NovaMark — performance marketing for brands that refuse to blend in.</p>
+            <a href="#contact" className="magnetic-btn inline-flex items-center gap-2 bg-primary text-white font-semibold px-7 py-3.5 rounded-full self-start sm:self-auto">
+              Start a Project <ArrowRightIcon className="h-4 w-4"/>
+            </a>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-10">
+          <div className="col-span-2">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="h-9 w-9 rounded-full bg-primary flex items-center justify-center">
+                <TrendingUpIcon className="h-4 w-4 text-white" sw={2.5}/>
+              </span>
+              <span className="font-display font-bold text-lg">NovaMark</span>
+            </div>
+            <p className="text-white/50 text-sm leading-relaxed max-w-xs">
+              A performance marketing agency built for brands that want to win—not just participate. New York, NY.
+            </p>
+            <p className="font-mono text-[10px] uppercase tracking-widest text-white/25 mt-6">© 2026 NovaMark LLC</p>
+          </div>
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary mb-4">Services</p>
+            <ul className="space-y-2.5">
+              {SERVICES_FULL.slice(0,4).map((s,i) => (
+                <li key={i}><a href="#services" className="text-white/55 hover:text-primary transition text-sm">{s.title}</a></li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary mb-4">Company</p>
+            <ul className="space-y-2.5">
+              {[['#approach','Our Approach'],['#process','Process'],['#contact','Contact']].map(([href,label]) => (
+                <li key={href}><a href={href} className="text-white/55 hover:text-primary transition text-sm">{label}</a></li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary mb-4">Contact</p>
+            <ul className="space-y-2.5">
+              <li><a href="tel:+15550000000" className="text-white/55 hover:text-primary transition text-sm">+1 (555) 000-0000</a></li>
+              <li><a href="mailto:hello@novamark.com" className="text-white/55 hover:text-primary transition text-sm">hello@novamark.com</a></li>
+              <li className="text-white/55 text-sm">New York, NY</li>
+            </ul>
+          </div>
+        </div>
+        <div className="mt-14 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          <div className="flex items-center gap-2.5">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inset-0 rounded-full bg-emerald-400 animate-ping"/>
+              <span className="relative h-2 w-2 rounded-full bg-emerald-400"/>
+            </span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/50">All systems operational · Ready to launch</span>
+          </div>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-white/40 text-xs font-mono">
+            <a href="#" className="hover:text-primary transition">Privacy Policy</a>
+            <a href="#" className="hover:text-primary transition">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+/* ---- App ---- */
+function App() {
+  useEffect(() => {
+    const t1 = setTimeout(() => ScrollTrigger.refresh(), 200);
+    const t2 = setTimeout(() => ScrollTrigger.refresh(), 1000);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, []);
+  return (
+    <div className="relative">
+      <div className="noise-overlay"/>
+      <Navbar/>
+      <main>
+        <Hero/>
+        <Features/>
+        <Pillars/>
+        <Protocol/>
+        <ServicesGrid/>
+        <TrustSignals/>
+        <ContactForm/>
+      </main>
+      <Footer/>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+novamark/node_modules/
+novamark/dist/
+*.log
+.DS_Store
